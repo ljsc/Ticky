@@ -1,0 +1,24 @@
+{
+  "name": "ticky",
+  "version": "0.0.1",
+  "authors": [
+    "Lou Scoras <louis.j.scoras@gmail.com>"
+  ],
+  "description": "A tic-tac-toe js browser app",
+  "license": "None",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "client/components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "marionette": "~1.4.1"
+  },
+  "devDependencies": {
+    "jasmine": "~1.3.1"
+  }
+}
