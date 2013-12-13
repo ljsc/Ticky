@@ -1,20 +1,34 @@
 describe("Position", function() {
     describe("initially", function() {
         var position;
+
         beforeEach(function() {
             position = new Position();
         });
+
         it("begins unoccupied", function() {
-            expect(position.get('occupied')).toBe(false);
+            expect(position.occupied).toBe(false);
         });
-        it("can have a marker placed", function() {
-            position.addMarker("X");
-            expect(position.get('occupied')).toBe(true);
-            expect(position.get('marker')).toBe("X");
+
+        describe("placing a marker", function() {
+            it("updates the marker attribute", function() {
+                position.addMarker("X");
+                expect(position.occupied).toBe(true);
+                expect(position.get('marker')).toBe("X");
+            });
+
+            it("returns itself", function() {
+                expect(position.addMarker("O")).toBe(position);
+            });
+
+            it("fires a change event", function(){
+                var spy = jasmine.createSpy("change callback")
+                    anything = jasmine.any(Object);
+                position.on("change:marker", spy);
+                position.addMarker('O');
+                expect(spy).toHaveBeenCalledWith(anything, "O", anything);
+            });
         });
-        it("returns itself when it places a marker", function() {
-            expect(position.addMarker("O")).toBe(position);
-        })
     });
 
     describe("with a marker already played", function() {
@@ -25,5 +39,46 @@ describe("Position", function() {
                 position.addMarker("X");
             }).toThrow();
         });
+    });
+});
+
+describe("Board", function() {
+    it("has 9 empty positions", function() {
+        var board = new Board;
+        expect(board.length).toBe(9);
+        expect(
+            _.all(
+                board.positions,
+                function(p) { return !p.occupied }
+            )
+        ).toBeTruthy();
+    });
+});
+
+describe("Playing a game", function() {
+    it("quick win", function() {
+        var board = new Board(),
+            overListener = jasmine.createSpy("gameover");
+
+        board.on("gameover", overListener);
+
+        board.addMarker(1, "X").addMarker(4, "O")
+             .addMarker(2, "X").addMarker(5, "O")
+             .addMarker(3, "X");
+
+        expect(overListener).toHaveBeenCalledWith("X");
+    });
+
+    it("O can win too", function() {
+        var board = new Board(),
+            overListener = jasmine.createSpy("gameover");
+
+        board.on("gameover", overListener);
+
+        board.addMarker(1, "O").addMarker(4, "X")
+             .addMarker(2, "O").addMarker(5, "X")
+             .addMarker(3, "O");
+
+        expect(overListener).toHaveBeenCalledWith("O");
     });
 });
