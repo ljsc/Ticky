@@ -3,7 +3,7 @@ describe("Position", function() {
         var position;
 
         beforeEach(function() {
-            position = new Position();
+            position = new Ticky.Position();
         });
 
         it("begins unoccupied", function() {
@@ -33,7 +33,7 @@ describe("Position", function() {
 
     describe("with a marker already played", function() {
         it("throws an error when we try to add a new marker", function() {
-            var position = new Position();
+            var position = new Ticky.Position();
             position.addMarker("X");
             expect(function() {
                 position.addMarker("X");
@@ -44,7 +44,7 @@ describe("Position", function() {
 
 describe("Board", function() {
     it("has 9 empty positions", function() {
-        var board = new Board;
+        var board = new Ticky.Board;
         expect(board.length).toBe(9);
         expect(
             _.all(
@@ -57,7 +57,7 @@ describe("Board", function() {
 
 describe("Playing a game", function() {
     it("quick win", function() {
-        var board = new Board(),
+        var board = new Ticky.Board(),
             overListener = jasmine.createSpy("gameover");
 
         board.on("gameover", overListener);
@@ -70,7 +70,7 @@ describe("Playing a game", function() {
     });
 
     it("O can win too", function() {
-        var board = new Board(),
+        var board = new Ticky.Board(),
             overListener = jasmine.createSpy("gameover");
 
         board.on("gameover", overListener);

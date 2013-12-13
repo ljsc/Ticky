@@ -1,4 +1,6 @@
-var Position = Backbone.Model.extend({
+(function (Ticky) {
+
+Ticky.Position = Backbone.Model.extend({
     initialize: function() {
         this.occupied = false;
     },
@@ -13,7 +15,9 @@ var Position = Backbone.Model.extend({
     }
 });
 
-var Board = Backbone.Collection.extend({
+Ticky.Board = Backbone.Collection.extend({
+    model: Ticky.Position,
+
     initialize: function() {
         this.newGame();
     },
@@ -34,7 +38,7 @@ var Board = Backbone.Collection.extend({
 
     checkForWin: function() {
         try {
-            _.each(Board.WINNING_COMBOS, function(tripple) {
+            _.each(Ticky.Board.WINNING_COMBOS, function(tripple) {
                 var winner = this.extractWinner(this.markersOnTripple(tripple));
                 if (winner) {
                     this.trigger("gameover", winner);
@@ -70,3 +74,4 @@ var Board = Backbone.Collection.extend({
     ]
 });
 
+})(this.Ticky = this.Ticky || {});
