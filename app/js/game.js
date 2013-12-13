@@ -74,4 +74,16 @@ Ticky.Board = Backbone.Collection.extend({
     ]
 });
 
+Ticky.BoardView = Backbone.Marionette.ItemView.extend({
+    template: "#board-template"
+});
+
+Ticky.App = new Backbone.Marionette.Application();
+
+Ticky.App.addRegions({
+    main: "#main-content"
+});
+
+Ticky.App.main.show(new Ticky.BoardView);
+
 })(this.Ticky = this.Ticky || {});
