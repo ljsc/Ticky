@@ -1,3 +1,25 @@
-h1 {
-    color: red;
+ol {
+    margin: 0;
+    padding: 0;
+}
+li {
+    display: block;
+    list-decoration: none;
+}
+#board {
+    position: relative;
+    width: 306px;
+    height: 306px;
+    border: 1px solid #96AAAA;
+    padding: 0;
+}
+.position {
+    width: 100px;
+    height: 100px;
+    border: 1px solid #B0CCCC;
+    float: left;
+    margin: 0;
+    text-align: center;
+    font-family: "Times New Roman", Serif;
+    font-size: 78px;
 }

@@ -5,10 +5,16 @@
         <link rel="stylesheet" href="app/css/ticky.css"></link>
     </head>
     <body>
-        <script type="text/html" id="board-template">
+        <script type="text/html" id="game-template">
             <h1>Ticky: A backbone tic-tac-toe!</h1>
-            <div id="positions"></div>
+            <div id="board"></div>
             <button id="new-game">New Game</button>
+        </script>
+
+        <script type="text/html" id="position-template">
+            <div class="position">
+                <%= marker %>
+            </div>
         </script>
 
         <div id="main-content"></div>

@@ -1,6 +1,12 @@
 (function (Ticky) {
 
+"use strict";
+
 Ticky.Position = Backbone.Model.extend({
+    defaults: {
+		marker: " "
+	},
+
     initialize: function() {
         this.occupied = false;
     },
@@ -74,8 +80,42 @@ Ticky.Board = Backbone.Collection.extend({
     ]
 });
 
-Ticky.BoardView = Backbone.Marionette.ItemView.extend({
-    template: "#board-template"
+Ticky.GameView = Backbone.Marionette.Layout.extend({
+    template: "#game-template",
+	regions: {
+		positions: "#board"
+	},
+	onRender: function() {
+        this.positions.show(
+			new Ticky.BoardView({ collection:  new Ticky.Board() })
+		);
+	}
+});
+
+Ticky.PositionView = Backbone.Marionette.ItemView.extend({
+	template: "#position-template",
+	tagName: "li",
+	initialize: function() {
+		this.listenTo(this.model, "change:marker", this.render);
+	},
+	events: {
+		"click .position": "onClickPosition"
+	},
+	onRender: function() {
+		var marker = this.model.get("marker");
+		if (marker !== " ") {
+			this.$el.addClass("marker-" + marker);
+		}
+	},
+	onClickPosition: function() {
+		console.log(this.model);
+		this.model.set("marker", "X");
+	}
+});
+
+Ticky.BoardView = Backbone.Marionette.CollectionView.extend({
+	itemView: Ticky.PositionView,
+	tagName: "ol"
 });
 
 Ticky.App = new Backbone.Marionette.Application();
@@ -84,6 +124,6 @@ Ticky.App.addRegions({
     main: "#main-content"
 });
 
-Ticky.App.main.show(new Ticky.BoardView);
+Ticky.App.main.show(new Ticky.GameView);
 
 })(this.Ticky = this.Ticky || {});
