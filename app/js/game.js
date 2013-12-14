@@ -62,7 +62,14 @@ Ticky.Board = Backbone.Collection.extend({
             positions.push( { game: this.game } );
         }, this);
         this.reset(positions);
+		this.listenForWin();
     },
+
+	listenForWin: function() {
+		_.each(this.models, function(position) {
+			this.listenTo(position, "change", this.checkForWin);
+		}, this);
+	},
 
     addMarker: function(i, marker) {
         this.models[i-1].set("marker", marker)
@@ -117,7 +124,9 @@ Ticky.GameView = Backbone.Marionette.Layout.extend({
 		"click #new-game": "newGame"
 	},
 	ui: {
-		player: ".currentPlayer"
+		player: ".currentPlayer",
+		winner: ".winner",
+		instructions: "p"
 	},
 	initialize: function () {
 		this.newGame();
@@ -129,6 +138,7 @@ Ticky.GameView = Backbone.Marionette.Layout.extend({
 			new Ticky.BoardView({ collection: this.board});
 
 		this.listenTo(this.model, "change:currentMarker", this.updatePlayer);
+		this.listenTo(this.board, "gameover", this.showWinner);
 		this.render();
 	},
 	onRender: function() {
@@ -136,6 +146,10 @@ Ticky.GameView = Backbone.Marionette.Layout.extend({
 	},
 	updatePlayer: function(game, marker) {
 		this.ui.player.html(marker)
+	},
+	showWinner: function(marker) {
+		this.ui.instructions.remove();
+		this.ui.winner.html("Congrats! Player " + marker +" wins the game.");
 	}
 });
 

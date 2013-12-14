@@ -1,3 +1,8 @@
+body {
+    background-color: hsla(240,90%,5%,1.0);
+    color: hsla(220,30%,75%,1.0);
+    font-family: Monaco, sans-serif;
+}
 ol {
     margin: 0;
     padding: 0;
@@ -12,6 +17,7 @@ li {
     height: 306px;
     border: 1px solid #96AAAA;
     padding: 0;
+    margin: 40px 0 0 40px;
 }
 .position {
     width: 100px;
@@ -22,4 +28,11 @@ li {
     text-align: center;
     font-family: "Times New Roman", Serif;
     font-size: 78px;
+}
+button {
+    margin: 20px 0 0 40px;
+}
+.winner {
+    font-weight: bold;
+    color: hsla(52,90%,28%,1.0)
 }
